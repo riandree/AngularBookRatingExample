@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import range from 'lodash/range';
 
 type GivenStartT = { 
   notGivenStar : boolean
@@ -26,12 +27,7 @@ export class RatingComponent implements OnInit {
   }
 
   starsFromValue(value : number) : GivenStartT[] {
-    const res : GivenStartT[]=[];
-    for (let index= 0; index < NUM_OF_STARS; index++) {
-      res.push({ notGivenStar : index+1 > value});
-    }
-    return res;
+    return range(1,NUM_OF_STARS+1).map(starNr => ({ notGivenStar : starNr > value}))
   }
-
 
 }
