@@ -1,2 +1,2 @@
-<p>dashboard works!</p>
-
+<p>Anzahl verfügbarer Bücher : {{ books.length }}</p>
+<app-book *ngFor="let book of books" [book]="book"></app-book>
