@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Book } from '../shared/book';
 import { BookComponent } from '../book/book.component';
+import { BookRatingService } from '../shared/book-rating.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,8 +13,12 @@ import { BookComponent } from '../book/book.component';
 })
 export class DashboardComponent implements OnInit {
 
-  private _books : Book[] = []; 
-  
+  _books : Book[] = []; 
+
+  private bookRatingService:BookRatingService=inject(BookRatingService);
+
+  //constructor(private bookRatingService:BookRatingService) {}
+
   ngOnInit(): void {
     [{
       isbn : "123-1234568-0",
@@ -52,7 +57,12 @@ export class DashboardComponent implements OnInit {
     }].forEach((b) => {this._books.push(b)});
   }
 
-  get books() : Book[] {
-    return this._books;
+  bookRateChanged(book:Book, change:number) {
+      if (change>0) {
+        this._books=this._books.map((b,idx) => b.isbn === book.isbn ? this.bookRatingService.increaseBookRating(b) : b);
+      } else {
+        this._books=this._books.map((b,idx) => b.isbn === book.isbn ? this.bookRatingService.decreaseBookRating(b) : b);
+      }
   }
+
 }

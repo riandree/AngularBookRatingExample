@@ -1,2 +1,6 @@
-<p>Anzahl verfügbarer Bücher : {{ books.length }}</p>
-<app-book *ngFor="let book of books" [book]="book"></app-book>
+<p>Anzahl verfügbarer Bücher : {{ _books.length }}</p>
+@for (book of _books; track $index) {
+    <app-book [book]="book" 
+        (rateUp)="bookRateChanged($event,1)"
+        (rateDown)="bookRateChanged($event,-1)"/>
+}
