@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import range from 'lodash/range';
 
-type GivenStartT = { 
+type GivenStarT = { 
   notGivenStar : boolean
 }
 
-const NUM_OF_STARS = 5;
+export const NUM_OF_STARS = 6;
 
 @Component({
   selector: 'app-rating',
@@ -15,18 +15,20 @@ const NUM_OF_STARS = 5;
   templateUrl: './rating.component.html', 
   styleUrl: './rating.component.scss'
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnChanges {
    
   @Input({required:true})
   value : number = 0;
- 
-  stars : GivenStartT[] = this.starsFromValue(0);
 
-  ngOnInit(): void {
+  stars : GivenStarT[] = this.starsFromValue(0);
+
+  // Hier nur ngOnInit zu verwenden würde dazu führen, daß die Komponente sich bei späteren
+  // Änderungen ihrer Properties nicht mehr aktualisiert.
+  ngOnChanges(): void {
     this.stars=this.starsFromValue(this.value);
   }
 
-  starsFromValue(value : number) : GivenStartT[] {
+  starsFromValue(value : number) : GivenStarT[] {
     return range(1,NUM_OF_STARS+1).map(starNr => ({ notGivenStar : starNr > value}))
   }
 
