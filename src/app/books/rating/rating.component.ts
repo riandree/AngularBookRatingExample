@@ -6,7 +6,7 @@ type GivenStarT = {
   notGivenStar : boolean
 }
 
-export const NUM_OF_STARS = 6;
+export const NUM_OF_STARS = 5;
 
 @Component({
   selector: 'app-rating',

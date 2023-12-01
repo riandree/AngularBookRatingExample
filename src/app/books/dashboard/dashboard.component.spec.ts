@@ -11,10 +11,10 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     const ratingStub : RatingService = {
       increaseBookRating(book: Book): Book {
-        throw new Error('Function not implemented.');
+        return book;
       },
       decreaseBookRating(book: Book): Book {
-        throw new Error('Function not implemented.');
+        return book;
       }
     };
 
@@ -40,4 +40,16 @@ describe('DashboardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should delegate rateUp to service when rateUp event is received.', () => {
+    // Arrange
+    const ratingStub=TestBed.inject(BookRatingService);
+    spyOn(ratingStub,"increaseBookRating").and.callThrough();
+    const dummyBook:Book={ isbn: '123-1234568-1'} as Book;
+    // Act
+    component.bookRateChanged(dummyBook,1);
+    // Validate
+    expect(ratingStub.increaseBookRating).toHaveBeenCalledTimes(1);
+  });
+
 });

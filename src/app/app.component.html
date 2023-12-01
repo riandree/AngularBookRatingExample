@@ -1,6 +1,8 @@
 <div class="container">
-  <h1>Willkommen ({{ today | date:"longDate" }})</h1>
-  <h2>{{ title }}</h2>
+  <h1>Willkommen - {{ title }} - ({{ today | date:"longDate" }})</h1>
 
-  <app-dashboard></app-dashboard>
+  <a href="books/">Books</a>
+  <hr>
+
+  <router-outlet/>
 </div>
