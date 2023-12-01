@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Book } from '../shared/book';
 import { RatingComponent } from '../rating/rating.component';
 import { RatingControlsComponent } from '../rating-controls/rating-controls.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book',
   standalone: true,
-  imports: [CommonModule, RatingComponent, RatingControlsComponent],
+  imports: [CommonModule, RouterLink, RatingComponent, RatingControlsComponent],
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss'
 })

@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'book-rating';
+  title = 'Bücher Bewertungen';
   today = new Date();
 }
 

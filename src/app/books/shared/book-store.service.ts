@@ -19,10 +19,11 @@ export class BookStoreService {
   }
 
   removeBook(isbn : string) {
+    return this.http.delete(`${this.apiUrl}/books/${isbn}`);
   }
 
   getSingle(isbn : string) : Observable<Book> {
-    return this.http.get<Book>(this.apiUrl+`/books/${isbn}`);
+    return this.http.get<Book>(`${this.apiUrl}/books/${isbn}`);
   }
   
   createBook(book : Book) : Observable<Book> {
@@ -30,6 +31,6 @@ export class BookStoreService {
   }
   
   search(searchterm : string) : Observable<BookListT> {
-    return this.http.get<BookListT>(this.apiUrl+`/books/search/${searchterm}`);
+    return this.http.get<BookListT>(`${this.apiUrl}/books/search/${searchterm}`);
   }
 }

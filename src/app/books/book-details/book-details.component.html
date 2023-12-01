@@ -1,1 +1,44 @@
-<p>book-details works!</p>
+<!-- Confirm Dialog -->
+<!-- ToDo : wrap in reusable component -->
+<ng-template #deleteDlg let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Wirklich löschen?</h4>
+	</div>
+	<div class="modal-body">
+		<form>
+			<div class="mb-3">
+                <p>Soll das Buch <em class="fw-bold">{{ book?.title}}</em> wirklich gelöscht werden?'</p>
+                <p><b>Achtung!</b> Diese Aktion lässt sich nicht rückgängig machen.</p>
+            </div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close()">Abbrechen</button>
+		<button type="button" class="btn btn-primary" (click)="doDelete(modal)">Ja, jetzt löschen!</button>
+	</div>
+</ng-template>
+
+@if (book) {
+    <div class="mt-3 d-flex flex-row">
+        <h3>{{ book.title}}</h3> <app-rating class="ms-3" [value]="book.rating"></app-rating>
+    </div>
+    <p>{{ book.description }}</p>
+
+    <ul>
+        <li><b>ISBN</b> {{ book.isbn}}</li>
+        <li><b>Preis</b> {{ book.price}}</li>
+    </ul>
+
+    <div class="d-flex flex-row justify-content-end">
+        <button type="button" class="btn btn-red" (click)="openDeleteConfirmDialog(deleteDlg)">Buch löschen</button>
+    </div>
+}
+@if(error) {
+    Ein Fehler ist aufgetreten: {{ error.status}} / {{ error.message }}
+}
+
+<hr>
+<ul>
+    <li><a routerLink="/books">zum Dashboard</a>
+    <li><a [routerLink]="['/books','9783864907791']">zum Angular Buch</a>
+</ul>

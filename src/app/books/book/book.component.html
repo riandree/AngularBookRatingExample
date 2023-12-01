@@ -13,6 +13,8 @@
       <p>Preis: {{ book.price | currency:"EUR" }}</p>
  
       <app-rating-controls [currentRating]="book.rating" (up)="doRateUp()" (down)="doRateDown()" />
+
+      <a [routerLink]="'/books/'+book.isbn">Details</a>
     </div> 
   </div>
 }
