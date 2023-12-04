@@ -1,1 +1,47 @@
-<p>book-create works!</p>
+<form [formGroup]="bookForm" (ngSubmit)="submitForm()">
+    <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input id="isbn" 
+               formControlName="isbn"
+               type="text" class="form-control">
+        <!-- besser nicht bookForm.controls.isbn.valid -->
+        <!-- stattdessen get() der Book-Form verwenden -->
+        <!-- bzw. noch besser eigene Methode verwenden -->
+        <!-- @if(!bookForm.get('isbn').valid && bookForm..get('isbn').touched) {-->
+        @if (isNotValid('isbn','minlength') || isNotValid('isbn','maxlength')) {
+            <div class="feedback-error">ISBN ungültig</div>
+        }
+        @if (isNotValid('isbn','required')) {
+            <div class="feedback-error">ISBN nicht angegeben</div>
+        }
+        <!-- besser : eigene Komponente bauen die Fehlermeldungen anzeigt z.b. mit Standardtexten -->
+        <pre *ngIf="bookForm.get('isbn')?.errors">Errors : {{ bookForm.get('isbn')?.errors | json }}</pre>
+    </div>
+    <div class="form-group">
+        <label for="titel">Title</label>
+        <input id="titel" 
+               formControlName="title"
+               type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="desc">Description</label>
+        <textarea id="desc" 
+                  formControlName="description"
+                  type="text" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input id="price" 
+               formControlName="price"
+               type="number" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="rating">Rating</label>
+        <input id="rating" 
+               formControlName="rating"
+               type="number" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-green">Submit</button>
+    <hr>    
+    <pre>{{ bookForm.value | json }}</pre>
+</form>
