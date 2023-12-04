@@ -1,4 +1,11 @@
 <div class="container">
   <h1>Willkommen - {{ title }} - ({{ today | date:"longDate" }})</h1>
+  <hr>
+  <ul>
+    <li><a routerLink="/books/search" class="btn btn-primary">Suche ...</a></li>
+    <li><a routerLink="/books/create" class="btn btn-secondary">Neues Buch</a></li>
+    <li><a routerLink="/books" class="btn btn-secondary">Dashboard</a></li>
+  </ul>
+  <hr>
   <router-outlet/>
 </div>
