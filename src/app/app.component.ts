@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink } from '@angular/router';
 
@@ -9,18 +9,21 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+
   title = 'Bücher Bewertungen';
   today = new Date();
+  currentTime = new Date();
+
+  private intervalTimerHandle! : number;
+  
+  constructor() {
+    this.intervalTimerHandle=setInterval(() => {
+      this.currentTime = new Date();
+    },1000) as unknown as number;
+    console.log(typeof this.intervalTimerHandle);
+  }
+  ngOnDestroy(): void {
+    clearInterval(this.intervalTimerHandle);
+  }
 }
-
-
-/**
- * ToDo :
- * - Datenmodell (z.b. Typescript Interface oder Typ-Alias)
- * - Daten
- * - Anzeige
- * - Komponenten
- *    - für ein einzelnes Buch
- *    - Komponente für Seite mit Liste von Büchern
- */

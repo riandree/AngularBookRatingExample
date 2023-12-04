@@ -8,3 +8,16 @@ ul {
         margin-right: 1em;
     }
 }
+
+.currentTime {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    padding: 0.5em;
+    border: 1px solid gray;
+    width: 10em;
+    
+    span {
+        font-size: large;
+        font-weight: bold;
+    }
+}
