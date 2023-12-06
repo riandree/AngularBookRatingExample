@@ -41,7 +41,7 @@
                formControlName="rating"
                type="number" class="form-control">
     </div>
-    <button type="submit" class="btn btn-green">Submit</button>
+    <button type="submit" class="btn btn-green" [disabled]="!bookForm.valid">Submit</button>
     <hr>    
     <pre>{{ bookForm.value | json }}</pre>
 </form>

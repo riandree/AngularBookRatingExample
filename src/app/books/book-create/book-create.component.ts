@@ -1,6 +1,9 @@
 import { CommonModule, JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Book } from '../shared/book';
+import { BookStoreService } from '../shared/book-store.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-create',
@@ -10,6 +13,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './book-create.component.scss'
 })
 export class BookCreateComponent {
+
+  constructor(private bookStoreService:BookStoreService, private router : Router) {}
 
   bookForm = new FormGroup({
     isbn : new FormControl('', { nonNullable : true,
@@ -42,7 +47,16 @@ export class BookCreateComponent {
   }
 
   submitForm() {
-    alert("Submit");
+    //const book : Book = this.bookForm.value;  // .value  enthält die Werte der "disabled / readonly" Felder nicht!
+    const book : Book = this.bookForm.getRawValue();  // enthält alle Felder  auch die die "disabled" sind
+    this.bookStoreService.createBook(book).subscribe({
+      next : (book) => {
+        this.router.navigate(["/books",book.isbn]);
+      },
+      error : () => {
+        alert("Ein Fehler ist aufgetreten.");
+      }
+    })
   }
 }
 

@@ -7,7 +7,9 @@
 	<div class="modal-body">
 		<form>
 			<div class="mb-3">
-                <p>Soll das Buch <em class="fw-bold">{{ book?.title}}</em> wirklich gelöscht werden?'</p>
+                @if (book$ | async; as book) { <!-- Verwendung der AsyncPipe / @if und Zuweisung des aufgelösten Elements-->
+                    <p>Soll das Buch <em class="fw-bold">{{ book.title}}</em> wirklich gelöscht werden?'</p>
+                }
                 <p><b>Achtung!</b> Diese Aktion lässt sich nicht rückgängig machen.</p>
             </div>
 		</form>
@@ -18,7 +20,7 @@
 	</div>
 </ng-template>
 
-@if (book) {
+@if (book$ | async; as book) { <!-- Verwendung der AsyncPipe / @if und Zuweisung des aufgelösten Elements-->
     <div class="mt-3 d-flex flex-row">
         <h3>{{ book.title}}</h3> <app-rating class="ms-3" [value]="book.rating"></app-rating>
     </div>

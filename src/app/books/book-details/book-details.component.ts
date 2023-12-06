@@ -5,7 +5,7 @@ import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { RatingComponent } from '../rating/rating.component';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -22,12 +22,13 @@ export class BookDetailsComponent implements OnInit {
   private currentRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private bookStoreService = inject(BookStoreService);
-  book?:Book;
+  book$?:Observable<Book>;
   error?:HttpErrorResponse;
 
   ngOnInit(): void {
-    this.currentRoute.paramMap.subscribe((params : any) => {  // ToDo
-      const isbn = params.get("isbn");
+/*
+      this.currentRoute.paramMap.subscribe((params : any) => {  // Diese Verschachtelung von Observable Subscriptions
+      const isbn = params.get("isbn");                        // birgt das Riskiko von Race Conditions   
       if (isbn) {
         this.bookStoreService.getSingle(isbn)
           .pipe(catchError((error : HttpErrorResponse) => {
@@ -41,7 +42,12 @@ export class BookDetailsComponent implements OnInit {
       // Zum Beispiel bei Klick auf "zum Angular Buch"
       // Statt dieses "Pull" basierten Ansatzes sollte daher eher der o.g. auf Observables basierende
       // Ansatz verwendet werden.
-    });
+    });*/
+    this.book$=this.currentRoute.paramMap
+      .pipe(
+        map(params => params.get('isbn')!),
+        switchMap(isbn => this.bookStoreService.getSingle(isbn))       
+      ); /* nicht benötigt da die "async" Pipe verwendet wird   .subscribe((b:Book) => this.book = b); */
   }
 
   openDeleteConfirmDialog(content: TemplateRef<any>) {
@@ -49,11 +55,13 @@ export class BookDetailsComponent implements OnInit {
 	}
 
   doDelete(b:NgbActiveModal) {
-    if (this.book) {
-      this.bookStoreService.removeBook(this.book.isbn).subscribe(()=> {
-        b.close();
-        this.router.navigate(['/']);
-      });      
+    if (this.book$) {
+      this.book$.subscribe(book => {
+        this.bookStoreService.removeBook(book.isbn).subscribe(()=> {
+          b.close();
+          this.router.navigate(['/']);
+        });      
+      });
     }
   }
 }

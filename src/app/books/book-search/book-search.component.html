@@ -1,1 +1,25 @@
-<p>book-search works!</p>
+<div class="form-group">
+    <input type="text" class="form-control" placeholder="Suche" [formControl]="searchControl">
+    <!--
+    @if (bookList$ | async; as booklist) {         @If ist hier nicht notwendig, da @for tolerant mit null und undefined umgeht
+        <ul>
+            @for (book of booklist; track book.isbn) {
+                <li>
+                    <h4>{{ book.title }}</h4>
+                    <em>ISBN</em><a [routerLink]="['/books',book.isbn]"> {{ book.isbn }}</a>                    
+                    <p>{{ book.description }}</sp>
+                </li>
+            }
+        </ul>
+    }
+    -->
+    <ul>
+        @for (book of bookList$ | async; track book.isbn) {
+            <li>
+                <h4>{{ book.title }}</h4>
+                <em>ISBN</em><a [routerLink]="['/books',book.isbn]"> {{ book.isbn }}</a>                    
+                <p>{{ book.description }}</p>
+            </li>
+        }
+    </ul>
+</div>
