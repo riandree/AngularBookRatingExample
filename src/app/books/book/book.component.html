@@ -1,6 +1,6 @@
 @if (book) {
-  <div class="card mb-4">
-    <div class="card-body bg-light">
+  <div class="card mb-4" >
+    <div class="card-body bg-light" [style.background-color]="background$ | async">
         <img class="img-thumbnail float-end" alt=""
           src="https://api.angular.schule/avatar/{{ book.rating }}">
       <div class="card-title">

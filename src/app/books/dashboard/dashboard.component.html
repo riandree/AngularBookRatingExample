@@ -1,4 +1,7 @@
 <p>Anzahl verfügbarer Bücher : {{ _books.length }}</p>
+<label>
+    Toggle blink <input type="checkbox" [checked]="blinking" (click)="toggleBlink()">
+</label>
 @for (book of _books; track $index) {
     <app-book [book]="book" 
         (rateUp)="bookRateChanged($event,1)"

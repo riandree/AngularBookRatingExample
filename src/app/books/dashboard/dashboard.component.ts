@@ -4,6 +4,7 @@ import { Book } from '../shared/book';
 import { BookComponent } from '../book/book.component';
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
+import { BlinkService } from '../shared/blink.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,12 +20,21 @@ export class DashboardComponent implements OnInit {
   private bookRatingService:BookRatingService=inject(BookRatingService);
   private bookStore:BookStoreService=inject(BookStoreService);
 
-  //constructor(private bookRatingService:BookRatingService) {}
+  blinking = false;
+
+  constructor(private blinkService :BlinkService) {}
 
   ngOnInit(): void {
     this.bookStore.getAllBooks().subscribe((booklist) => {  // unsubscribe hier nicht notwendig, da singulärer Http-Request
       this._books = booklist;
     });  // ToDo : Error handling
+
+    
+  }
+
+  toggleBlink() {
+    this.blinking=!this.blinking;
+    this.blinkService.toggleBlink();
   }
 
   bookRateChanged(book:Book, change:number) {
